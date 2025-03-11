@@ -1,0 +1,92 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:300, 400, 700&display=swap';
+body, html {
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat, sans-serif;
+    background: linear-gradient(60deg, #2c072c 0%, #87a1bc 100%);
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+
+
+.header {
+    font-size: 45px;
+    color: black;
+    margin-bottom: 70px;
+    text-align: center;
+}
+
+h3 span {
+	color: rgb(220, 20, 103);
+}
+
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    background: white; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+input[type="file"] {
+    padding: 10px;
+    border: 2px solid #DC1467;
+    background: white;
+    color: #DC1467;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    background: #DC1467;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #b01050;
+}
+
+.result-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#uploaded-image {
+    display: none;
+    max-width: 100%;
+    margin: 10px auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.face-box {
+    background: rgba(220, 20, 103, 0.2);
+    color: black;
+    font-size: 16px;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}

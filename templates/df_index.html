@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detector</title>
+    <link rel="stylesheet" href="../static/css/df_style_2.css">
+</head>
+<body>
+    <h3 class="header">DEEPFAKE <span>IMAGE</span> DETECTOR</h3> 
+
+    <div class="container">  
+        <form id="upload-form" action="/df/predict_df" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file-input" required>
+            <button type="submit">INITIATE CYBER SCAN</button>
+        </form>
+
+        <div class="result-container">
+            <p id="result" class="result-text"></p>
+            <img id="uploaded-image" src="" alt="Uploaded Image">
+            <div id="faces-container"></div> 
+        </div>
+    </div>
+</body>
+
+<script>
+    document.querySelector("#upload-form").onsubmit = async function (e) {
+    e.preventDefault();
+    
+    let formData = new FormData(this);
+    let response = await fetch("/df/predict_df", {  
+        method: "POST",
+        body: formData
+    });
+
+    let data = await response.json();
+    let resultElement = document.getElementById("result");
+    let facesContainer = document.getElementById("faces-container");
+    let imgElement = document.getElementById("uploaded-image");
+
+    facesContainer.innerHTML = ""; 
+
+    if (data.error) {
+        resultElement.innerText = data.error;
+        imgElement.style.display = "none"; 
+        return;
+    }
+
+    imgElement.src = data.image_url;
+    imgElement.style.display = "block";
+
+    resultElement.innerText = `Faces detected: ${data.predictions.length}`;
+
+    data.predictions.forEach((face, index) => {
+        let faceBox = document.createElement("p");
+        faceBox.classList.add("face-box");
+        faceBox.innerText = `Face ${index + 1}: ${face.prediction}`;
+        facesContainer.appendChild(faceBox);
+    });
+};
+
+</script>
+
+</html>

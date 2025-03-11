@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberbullying Detection</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import 'https://fonts.googleapis.com/css?family=Montserrat:300, 400, 700&display=swap';
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(60deg, #2c072c 0%, #87a1bc 100%);
+            background-attachment: fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        .static-title {
+            font-size: 2.7rem;
+            font-weight: 300;
+            color: black;
+            margin-bottom: 120px;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            text-align: center;
+        }
+
+        .static-title span {
+            color: rgb(220, 20, 103); /* Pink color for "BULLYING" */
+        }
+
+
+        .form-control {
+            height: 200px;
+            border: 2px solid rgb(220, 20, 103);
+            font-size: 1.2rem;
+        }
+        button[type="submit"] {
+            background-color: rgb(220, 20, 103) !important; /* Pink background */
+            border: 2px solid rgb(220, 20, 103) !important; /* Pink border */
+            color: white !important; /* White text */
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px; /* If you want square corners, set this to 0 */
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: white !important;
+            color: rgb(220, 20, 103) !important;
+            border: 2px solid rgb(220, 20, 103) !important;
+        }
+
+
+        .result {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            
+        }
+
+        .bullying {
+            color: red;
+        }
+        .non-bullying {
+            color: green;
+        }
+
+/* Styling the upload container */
+        .container form {
+            max-width: 600px; /* Adjust width */
+            margin: 30px auto; /* Center the box */
+            padding: 20px;
+            background: white; /* White background */
+            border: 2px solid rgb(220, 20, 103); /* Pink border */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 2px solid rgb(220, 20, 103); /* Pink outline */
+            border-radius: 5px;
+            background: white;
+            color: rgb(220, 20, 103);
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input[type="file"]::file-selector-button {
+            padding: 8px 12px;
+            background: rgb(220, 20, 103); /* Pink button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: white;
+            color: rgb(220, 20, 103);
+            border: 2px solid rgb(220, 20, 103);
+        }
+
+        /* Styling submit button */
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: rgb(220, 20, 103); /* Pink background */
+            color: white;
+            border: 2px solid rgb(220, 20, 103);
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background: white;
+            color: rgb(220, 20, 103);
+        }
+
+    </style>
+</head>
+<body>
+
+    <style>
+        .result h4 {
+            font-weight: bold;
+            color: rgb(15, 14, 14);
+            font-size: 20px;
+        }
+    
+        .result p.entered-text {
+            font-weight: bold;
+            color: rgb(69, 71, 210);
+            font-size: 18px;
+        }
+    
+        .result p.prediction-text.bullying {
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    
+        .result p.prediction-text.non-bullying {
+            color: rgb(17, 156, 17);
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+    
+    <div class="container">
+        <div class="static-title">CYBER<span>BULLYING </span>DETECTION</div>
+        <form action="{{ url_for('predict')}}" method="POST">
+            <div class="form-group">
+                <textarea name="text" class="form-control" rows="4" placeholder="Enter text to analyze...">{{ request.form.get('text', '') }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">INITIATE CYBER SCAN</button>
+       
+    
+        {% if prediction is not none %}
+        <div class="result {% if prediction == 1 %}bullying{% else %}non-bullying{% endif %}">
+            <h4>Analyzed Text:</h4>
+            <p class="entered-text">{{ request.form.get('text', '') }}</p>
+            <h4>Prediction:</h4>
+            <p class="prediction-text {% if prediction == 1 %}bullying{% else %}non-bullying{% endif %}">
+                {% if prediction == 1 %}Bullying{% else %}Non-Bullying{% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </form>
+    </div>
+    
+    
+    
+        
+        
+    </div>
+    <div class="container">
+        <form action="/cb/predict_image" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" required />
+            <input type="submit" value="INITIATE CYBER SCAN">
+    
+            {% if image_path %}
+                <h4>Uploaded Image:</h4>
+                <img src="{{ image_path }}" alt="Uploaded Image"
+                     style="max-width: 100%; height: auto; border-radius: 10px; margin-top: 10px;">
+            {% endif %}
+    
+            
+    
+            {% if image_prediction is not none %}
+                <h4>Prediction:</h4>
+                <div class="result {% if image_prediction == '1' %}bullying{% else %}non-bullying{% endif %}">
+                    {% if image_prediction == '1' %}
+                        Bullying
+                    {% else %}
+                        Non-Bullying
+                    {% endif %}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
