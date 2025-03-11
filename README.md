@@ -1,8 +1,17 @@
 Pixel Patrollers – AI Eyes on Every Pixel, Patrolling to Protect Your Digital World.
+
+
+
+
+
 TEAM MEMBERS : Bhamini Katyal 
                Praggya Verma 
                Ridhi Jaggi 
                Upasana Agarwal
+
+
+
+               
 Demo Video: https://youtu.be/m9fEF81ndqU
 
 About the Project
